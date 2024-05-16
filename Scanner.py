@@ -10,7 +10,7 @@ subprocess.call("clear", shell=True)
 #Welcome message
 print(("__")*60)
 print("""Welcome to Pi-scan
-      Created by Kenyon Bias
+      Created by Kenzerlo
                 Version 1.0""")
 print(("__")*60)
 
