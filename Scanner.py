@@ -8,10 +8,21 @@ import threading
 subprocess.call("clear", shell=True)
 
 #Welcome message
-print(("__")*60)
-print("""Welcome to Pi-scan
-      Created by Kenzerlo
-                Version 1.0""")
+def Art():
+    ascii_art = r"""
+     __________.___            _________                     
+     \______   \   |          /   _____/ ____ _____    ____  
+      |     ___/   |  ______  \_____  \_/ ___\\__  \  /    \ 
+      |    |   |   | /_____/  /        \  \___ / __ \|   |  \
+      |____|   |___|         /_______  /\___  >____  /___|  /
+                                     \/     \/     \/     \/ 
+  """
+    print(ascii_art)
+
+Art()
+
+print("""Pi-scan
+      Created by Kenyon Bias""")
 print(("__")*60)
 
 #scanner
