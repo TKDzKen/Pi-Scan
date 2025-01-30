@@ -20,9 +20,6 @@ def Art():
     print(ascii_art)
 
 Art()
-
-print("""Pi-scan
-      Created by Kenyon Bias""")
 print(("__")*60)
 
 #scanner
@@ -47,8 +44,11 @@ if __name__ == "__main__":
 
 #multi-threading
     threads = []
+    if args.min_port is None or args.max_port is None:
+        print("!Error!: Both min_port and max_port must be specified. use --help for more infomation.")
+        exit(1)
     for port in range(args.min_port, args.max_port + 1):
-        thread = threading.Thread(target=port_scan, args=(args.IP, port))
+        thread = threading.Thread(target=port_scan, args=(args.ip, port))
         threads.append(thread)
         thread.start()
 
