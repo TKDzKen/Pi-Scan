@@ -1,14 +1,8 @@
-#!/usr/bin/python3
-import subprocess
 import socket
 import argparse
 import threading
 
-#clearing screen
-subprocess.call("clear", shell=True)
-
-#Welcome message
-def Art():
+def art():
     ascii_art = r"""
      __________.___            _________                     
      \______   \   |          /   _____/ ____ _____    ____  
@@ -19,33 +13,39 @@ def Art():
   """
     print(ascii_art)
 
-Art()
-print(("__")*60)
 
-#scanner
-def port_scan(IP, port):
-    try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((IP, port))
-        print(f"Port {port} is open on {IP}")
-    except:
-        pass
-    finally:
-        sock.close()
+art()
+print(("__") * 60)
 
-#arguments
+#Scanner
+def port_scan(ip, port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        try:
+            sock.connect((ip, port))
+            print(f"Port {port} is open on {ip}")
+        except:
+            pass
+        finally:
+            sock.close()
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='A Base level python port scanner')
-    parser.add_argument('--IP', type=str, help='Remote target IP address')
-    parser.add_argument('--min_port', type=int, help='Minimum remote target port')
-    parser.add_argument('--max_port', type=int, help='Maximum remote target port')
+    parser = argparse.ArgumentParser(description='Python tool for port scanning local or remote systems')
+    parser.add_argument('--ip', type=str, help='Remote target ip address')
+    parser.add_argument('--min_port', type=int, help='Minimum target port')
+    parser.add_argument('--max_port', type=int, help='Maximum target port')
     args = parser.parse_args()
-    
 
-#multi-threading
+    if not args.ip:
+        print("[!] Ip address required to perform scan. use --help for more infomation.")
+        exit(1)
+
+    # Multi-Threading
     threads = []
     if args.min_port is None or args.max_port is None:
-        print("!Error!: Both min_port and max_port must be specified. use --help for more infomation.")
+        print("[!] Both min_port and max_port must be specified. use --help for more infomation.")
+        exit(1)
+    if args.min_port < 0 or args.max_port < 0:
+        print("[!] Ports can not be 0 or less. Use --help for more infomation.")
         exit(1)
     for port in range(args.min_port, args.max_port + 1):
         thread = threading.Thread(target=port_scan, args=(args.ip, port))
