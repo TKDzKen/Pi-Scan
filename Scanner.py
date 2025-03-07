@@ -43,7 +43,16 @@ if __name__ == "__main__":
     threads = []
     if args.min_port is None or args.max_port is None:
         print("[!] Both min_port and max_port must be specified. use --help for more infomation.")
-        exit(1)
+        ans = input("Would you like to test the default ports (Y/N): ")
+
+        if ans in ["Y", "y", "yes", "Yes"]:
+            args.min_port = 1
+            args.max_port = 1000
+        elif ans in ["N", "n", "no", "No"]:
+            print("Exiting...")
+            exit(1)
+        else:
+            exit(1)
     if args.min_port < 0 or args.max_port < 0:
         print("[!] Ports can not be 0 or less. Use --help for more infomation.")
         exit(1)
