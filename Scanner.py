@@ -1,6 +1,7 @@
 import socket
 import argparse
 import threading
+from Scanner_Imports import ping_sweep, single_ping
 
 def art():
     ascii_art = r"""
@@ -28,15 +29,27 @@ def port_scan(ip, port):
         finally:
             sock.close()
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Python tool for port scanning local or remote systems')
-    parser.add_argument('--ip', type=str, help='Remote target ip address')
+    parser = argparse.ArgumentParser(description='Python offensive security tool for port scanning local or remote systems')
+    parser.add_argument('--ip', type=str, help='Target ip address')
     parser.add_argument('--min_port', type=int, help='Minimum target port')
     parser.add_argument('--max_port', type=int, help='Maximum target port')
+    parser.add_argument('--PS', type=str, help='Perform a ping sweep against the ip address range')
+    parser.add_argument('--ping', type=str, help='Performs a ping against a singular ip address')
     args = parser.parse_args()
 
+    if args.ping:
+        print(f"Pinging Host")
+        single_ping(args.ip)
+        exit(0)
+    if args.PS:
+        print(f"Ping sweeping host ip address")
+        ping_sweep(args.ip)
+        exit(0)
+
     if not args.ip:
-        print("[!] Ip address required to perform scan. use --help for more infomation.")
+        print("[!] Ip address required to perform scan or ping. use --help for more infomation.")
         exit(1)
 
     # Multi-Threading
@@ -53,7 +66,8 @@ if __name__ == "__main__":
             exit(1)
         else:
             exit(1)
-    if args.min_port < 0 or args.max_port < 0:
+    
+    if args.min_port <= 0 or args.max_port <= 0:
         print("[!] Ports can not be 0 or less. Use --help for more infomation.")
         exit(1)
     for port in range(args.min_port, args.max_port + 1):
