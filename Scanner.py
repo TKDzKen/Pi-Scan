@@ -39,19 +39,6 @@ if __name__ == "__main__":
     parser.add_argument('--ping', type=str, help='Performs a ping against a singular ip address')
     args = parser.parse_args()
 
-    if args.ping:
-        print(f"Pinging Host")
-        single_ping(args.ip)
-        exit(0)
-    if args.PS:
-        print(f"Ping sweeping host ip address")
-        ping_sweep(args.ip)
-        exit(0)
-
-    if not args.ip:
-        print("[!] Ip address required to perform scan or ping. use --help for more infomation.")
-        exit(1)
-
     # Multi-Threading
     threads = []
     if args.min_port is None or args.max_port is None:
