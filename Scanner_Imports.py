@@ -1,7 +1,8 @@
-from scapy.all import ICMP, IP, sr1
-import ipaddress
+from scapy.layers.inet import IP, ICMP
+from scapy.all import sr1
+import ipaddress 
 
-def ping_sweep(ip, timeout=2):
+def ping_sweep(ip, timeout=3):
     try:
         ipaddress.ip_network(ip + '.0')
     except ValueError:
@@ -30,7 +31,7 @@ def single_ping(ip):
 
     pk = IP(dst=ip) / ICMP()
     try:
-        rep = sr1(pk, timeout=2, verbose=0)
+        rep = sr1(pk, timeout=5, verbose=0)
         if rep:
             print(f"Host {ip} is up")
         else:
